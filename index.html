@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WordKit – Free Word Counter, Character Counter & Text Tools</title>
+<meta name="description" content="Free online word counter, character counter, reading time estimator, and text tools. Count words, characters, sentences, paragraphs. Convert case, remove spaces, sort lines.">
+<meta name="keywords" content="word counter, character counter online, word count checker, reading time calculator, text case converter, online word counter free, count words online">
+<link rel="canonical" href="https://wordkit.in/">
+<meta property="og:title" content="WordKit – Free Word Counter & Text Tools">
+<meta property="og:description" content="Count words, characters, sentences. Estimate reading time. Convert case, sort lines, remove spaces. Free, instant, no signup.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wordkit.in/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="WordKit – Free Word Counter & Text Tools">
+<meta name="twitter:description" content="Word counter, character counter, reading time, case converter and more. Free online text tools.">
+<link rel="stylesheet" href="css/main.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "WordKit",
+  "url": "https://wordkit.in/",
+  "description": "Free online word counter, character counter, reading time estimator and text transformation tools.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (browser-based)",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+  "featureList": ["Word counter","Character counter","Sentence counter","Paragraph counter","Reading time","Case converter","Remove extra spaces","Sort lines","Reverse text","Keyword density"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I count words online?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Paste or type your text into WordKit. The word count updates instantly as you type. You also get character count, sentence count, paragraph count, and estimated reading time." }
+    },
+    {
+      "@type": "Question",
+      "name": "How many words is a 5 minute read?",
+      "acceptedAnswer": { "@type": "Answer", "text": "An average adult reads at about 200–250 words per minute. A 5 minute read is approximately 1000–1250 words. WordKit shows the reading time for your text automatically." }
+    },
+    {
+      "@type": "Question",
+      "name": "How many characters is 1000 words?",
+      "acceptedAnswer": { "@type": "Answer", "text": "1000 words is approximately 5000–6000 characters including spaces, or about 4500–5000 characters without spaces. The exact count depends on the average word length in your text." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does WordKit save my text?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. WordKit processes all text entirely in your browser. Nothing is sent to any server. Your text is private." }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">Word<span>Kit</span></div>
+    <p>Free Word Counter &amp; Text Tools</p>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- TOOL TABS -->
+  <div class="tool-tabs" style="margin-top:16px;">
+    <button class="tool-tab active" onclick="switchTool('counter', this)">📊 Word Counter</button>
+    <button class="tool-tab" onclick="switchTool('case', this)">🔤 Case Converter</button>
+    <button class="tool-tab" onclick="switchTool('clean', this)">🧹 Clean Text</button>
+    <button class="tool-tab" onclick="switchTool('sort', this)">↕ Sort Lines</button>
+    <button class="tool-tab" onclick="switchTool('keywords', this)">🔑 Keywords</button>
+  </div>
+
+  <!-- WORD COUNTER TOOL -->
+  <div id="tool-counter">
+    <div class="editor-wrap">
+      <div>
+        <textarea id="main-input" placeholder="Type or paste your text here..." oninput="updateAll()"></textarea>
+        <div class="toolbar">
+          <button class="tool-btn" onclick="copyText()">📋 Copy</button>
+          <button class="tool-btn" onclick="pasteText()">📥 Paste</button>
+          <button class="tool-btn danger" onclick="clearText()">🗑 Clear</button>
+        </div>
+      </div>
+      <div class="stats-panel">
+        <div class="stat-box">
+          <div class="stat-box-label">Words</div>
+          <div class="stat-box-value" id="stat-words">0</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-label">Characters</div>
+          <div class="stat-box-value" id="stat-chars">0</div>
+          <div class="stat-box-sub" id="stat-chars-no-space">0 without spaces</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-label">Sentences</div>
+          <div class="stat-box-value" id="stat-sentences">0</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-label">Paragraphs</div>
+          <div class="stat-box-value" id="stat-paras">0</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-label">Reading Time</div>
+          <div class="stat-box-value" id="stat-read">0 min</div>
+          <div class="stat-box-sub">at 200 wpm</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-label">Speaking Time</div>
+          <div class="stat-box-value" id="stat-speak">0 min</div>
+          <div class="stat-box-sub">at 130 wpm</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CASE CONVERTER TOOL -->
+  <div id="tool-case" style="display:none;">
+    <textarea id="case-input" class="main-input" placeholder="Type or paste your text here..." style="width:100%;min-height:200px;padding:14px;border:1.5px solid var(--border);border-radius:14px;font-size:15px;line-height:1.6;resize:vertical;background:var(--surface);outline:none;font-family:inherit;margin-bottom:10px;"></textarea>
+    <div class="toolbar">
+      <button class="tool-btn" onclick="convertCase('upper')">UPPER CASE</button>
+      <button class="tool-btn" onclick="convertCase('lower')">lower case</button>
+      <button class="tool-btn" onclick="convertCase('title')">Title Case</button>
+      <button class="tool-btn" onclick="convertCase('sentence')">Sentence case</button>
+      <button class="tool-btn" onclick="convertCase('camel')">camelCase</button>
+      <button class="tool-btn" onclick="convertCase('snake')">snake_case</button>
+      <button class="tool-btn" onclick="convertCase('kebab')">kebab-case</button>
+      <button class="tool-btn" onclick="convertCase('alternate')">aLtErNaTe</button>
+    </div>
+    <div style="margin-top:10px; font-size:12px; font-weight:700; color:var(--label); margin-bottom:6px;">Result</div>
+    <div class="output-box" id="case-output"></div>
+    <div class="copy-bar"><button class="copy-btn" onclick="copyOutput('case-output')">📋 Copy Result</button></div>
+  </div>
+
+  <!-- CLEAN TEXT TOOL -->
+  <div id="tool-clean" style="display:none;">
+    <textarea id="clean-input" placeholder="Paste text to clean..." style="width:100%;min-height:200px;padding:14px;border:1.5px solid var(--border);border-radius:14px;font-size:15px;line-height:1.6;resize:vertical;background:var(--surface);outline:none;font-family:inherit;margin-bottom:10px;"></textarea>
+    <div class="toolbar">
+      <button class="tool-btn" onclick="cleanText('trim')">Remove Extra Spaces</button>
+      <button class="tool-btn" onclick="cleanText('lines')">Remove Blank Lines</button>
+      <button class="tool-btn" onclick="cleanText('duplicate')">Remove Duplicate Lines</button>
+      <button class="tool-btn" onclick="cleanText('reverse')">Reverse Text</button>
+      <button class="tool-btn" onclick="cleanText('numbers')">Remove Numbers</button>
+      <button class="tool-btn" onclick="cleanText('punctuation')">Remove Punctuation</button>
+    </div>
+    <div style="margin-top:10px; font-size:12px; font-weight:700; color:var(--label); margin-bottom:6px;">Result</div>
+    <div class="output-box" id="clean-output"></div>
+    <div class="copy-bar"><button class="copy-btn" onclick="copyOutput('clean-output')">📋 Copy Result</button></div>
+  </div>
+
+  <!-- SORT LINES TOOL -->
+  <div id="tool-sort" style="display:none;">
+    <textarea id="sort-input" placeholder="Paste lines to sort (one item per line)..." style="width:100%;min-height:200px;padding:14px;border:1.5px solid var(--border);border-radius:14px;font-size:15px;line-height:1.6;resize:vertical;background:var(--surface);outline:none;font-family:inherit;margin-bottom:10px;"></textarea>
+    <div class="toolbar">
+      <button class="tool-btn" onclick="sortLines('az')">A → Z</button>
+      <button class="tool-btn" onclick="sortLines('za')">Z → A</button>
+      <button class="tool-btn" onclick="sortLines('shuffle')">🔀 Shuffle</button>
+      <button class="tool-btn" onclick="sortLines('reverse')">↕ Reverse</button>
+      <button class="tool-btn" onclick="sortLines('unique')">✂ Remove Duplicates</button>
+      <button class="tool-btn" onclick="sortLines('num')">1 → 9</button>
+    </div>
+    <div style="margin-top:10px; font-size:12px; font-weight:700; color:var(--label); margin-bottom:6px;">Result</div>
+    <div class="output-box" id="sort-output"></div>
+    <div class="copy-bar"><button class="copy-btn" onclick="copyOutput('sort-output')">📋 Copy Result</button></div>
+  </div>
+
+  <!-- KEYWORD DENSITY TOOL -->
+  <div id="tool-keywords" style="display:none;">
+    <textarea id="kw-input" placeholder="Paste your article or blog post here to analyse keyword density..." style="width:100%;min-height:200px;padding:14px;border:1.5px solid var(--border);border-radius:14px;font-size:15px;line-height:1.6;resize:vertical;background:var(--surface);outline:none;font-family:inherit;margin-bottom:10px;" oninput="analyseKeywords()"></textarea>
+    <div id="kw-output"></div>
+  </div>
+
+  <!-- SEO CONTENT -->
+  <div class="seo">
+    <h2>Free Online Word Counter — Instant, Accurate, Private</h2>
+    <p>WordKit counts words, characters, sentences, paragraphs and estimates reading time as you type. No signup, no limits, and your text never leaves your browser. Used by students, bloggers, writers, and content creators.</p>
+
+    <h3>What WordKit can do</h3>
+    <ul>
+      <li><strong>Word Counter</strong> — count words and characters with real-time updates</li>
+      <li><strong>Reading Time</strong> — estimate how long your content takes to read or speak</li>
+      <li><strong>Case Converter</strong> — UPPER, lower, Title, Sentence, camelCase, snake_case, kebab-case</li>
+      <li><strong>Clean Text</strong> — remove extra spaces, blank lines, duplicate lines, numbers, punctuation</li>
+      <li><strong>Sort Lines</strong> — sort A–Z, Z–A, shuffle, reverse, remove duplicates</li>
+      <li><strong>Keyword Density</strong> — find top keywords in your article for SEO</li>
+    </ul>
+
+    <h3>Common word count requirements</h3>
+    <ul>
+      <li>Tweet: 280 characters</li>
+      <li>Instagram caption: up to 2,200 characters</li>
+      <li>Short blog post: 500–800 words</li>
+      <li>Standard blog post: 1,000–1,500 words</li>
+      <li>Long-form article (SEO): 1,500–3,000 words</li>
+      <li>College essay: typically 500–650 words</li>
+      <li>1-page resume: 400–600 words</li>
+    </ul>
+
+    <h3>Frequently Asked Questions</h3>
+    <details>
+      <summary>How do I count words in a text?</summary>
+      <p>Paste your text into WordKit. The word count appears instantly in the panel on the right. Words are counted by splitting on spaces and line breaks, excluding empty entries.</p>
+    </details>
+    <details>
+      <summary>How many pages is 1000 words?</summary>
+      <p>1000 words is approximately 2 pages in A4 size with standard 12pt font and 1.5 line spacing. With double spacing it is about 4 pages.</p>
+    </details>
+    <details>
+      <summary>How long does it take to read 1000 words?</summary>
+      <p>At an average adult reading speed of 200–250 words per minute, 1000 words takes about 4–5 minutes to read. WordKit shows the reading time automatically.</p>
+    </details>
+    <details>
+      <summary>What is keyword density?</summary>
+      <p>Keyword density is how often a word appears in your text as a percentage of total words. For SEO, aim for 1–3% for your main keyword. The Keywords tab in WordKit shows the top 20 words in your text with their frequency.</p>
+    </details>
+
+    <div style="margin-top:20px; text-align:center; font-size:12px; color:#065f46;">
+      More free tools:
+      <a href="https://nxtcraft.github.io/resumekit/" style="color:#059669;">ResumeKit</a> ·
+      <a href="https://nxtcraft.github.io/invoicekit/" style="color:#059669;">InvoiceKit</a> ·
+      <a href="https://nxtcraft.github.io/pdfcraft/" style="color:#059669;">PDFCraft</a> ·
+      <a href="https://nxtcraft.github.io/qrcraft/" style="color:#059669;">QRCraft</a>
+    </div>
+  </div>
+</div>
+
+<footer>&copy; 2025 WordKit · <a href="https://nxtcraft.github.io/devtoolbox/">DevToolbox</a> · <a href="https://nxtcraft.github.io/pdfcraft/">PDFCraft</a></footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>
